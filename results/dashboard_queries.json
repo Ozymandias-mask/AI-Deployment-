@@ -1,0 +1,75 @@
+{
+  "top_weapons_agg": {
+    "size": 0,
+    "aggs": {
+      "top_weapons": {
+        "terms": {
+          "field": "weapons",
+          "size": 20
+        }
+      }
+    }
+  },
+  "timeline_weapons": {
+    "size": 0,
+    "aggs": {
+      "over_time": {
+        "date_histogram": {
+          "field": "date",
+          "calendar_interval": "month"
+        },
+        "aggs": {
+          "top_weapons": {
+            "terms": {
+              "field": "weapons",
+              "size": 5
+            }
+          }
+        }
+      }
+    }
+  },
+  "weapon_unit_cooccurrence": {
+    "size": 0,
+    "aggs": {
+      "per_weapon": {
+        "terms": {
+          "field": "weapons",
+          "size": 10
+        },
+        "aggs": {
+          "per_unit": {
+            "terms": {
+              "field": "mil_units",
+              "size": 10
+            }
+          }
+        }
+      }
+    }
+  },
+  "filter_by_period": {
+    "query": {
+      "range": {
+        "date": {
+          "gte": "2023-06-01",
+          "lte": "2023-09-30"
+        }
+      }
+    },
+    "aggs": {
+      "weapons": {
+        "terms": {
+          "field": "weapons",
+          "size": 10
+        }
+      },
+      "units": {
+        "terms": {
+          "field": "mil_units",
+          "size": 10
+        }
+      }
+    }
+  }
+}
